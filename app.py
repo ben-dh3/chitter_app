@@ -1,32 +1,117 @@
 import os
-from flask import Flask, request, render_template
+from datetime import datetime
+from html_sanitizer import Sanitizer
+from flask import Flask, request, render_template, session, redirect
 from lib.database_connection import get_flask_database_connection
+from lib.user_repository import *
+from lib.user import *
+from lib.post_repository import *
+from lib.post import *
+
 
 # Create a new Flask app
 app = Flask(__name__)
+sanitizer = Sanitizer()
+app.secret_key = os.environ.get('SECRET_KEY') or 'you-cannot-guess'
 
-# == Your Routes Here ==
 
+@app.route('/')
+def get_posts():
+    connection = get_flask_database_connection(app)
+    repository = PostRepository(connection)
+    posts = repository.all()
+    return render_template('posts/index.html', posts=posts)
 
-# == Example Code Below ==
+# This route simply returns the login page
+@app.route('/login')
+def login():
+    if not session.get("user_id"):
+        return render_template('users/login.html')
+    return redirect('/account_page')
 
-# GET /emoji
-# Returns a smiley face in HTML
-# Try it:
-#   ; open http://localhost:5001/emoji
-@app.route('/emoji', methods=['GET'])
-def get_emoji():
-    # We use `render_template` to send the user the file `emoji.html`
-    # But first, it gets processed to look for placeholders like {{ emoji }}
-    # These placeholders are replaced with the values we pass in as arguments
-    return render_template('emoji.html', emoji=':)')
+@app.route('/logout')
+def logout():
+    session.clear()
+    return render_template('users/logout.html')
 
-# This imports some more example routes for you to see how they work
-# You can delete these lines if you don't need them.
-from example_routes import apply_example_routes
-apply_example_routes(app)
+# This route receives login information (email and password) as POST parameters,
+# checks whether the credentials are valid, and if so finds the user in the database
+# using the email. If all goes well, it stores the user's ID in the session
+# and shows a success page.
+@app.route('/login', methods=['POST'])
+def login_post():
+    connection = get_flask_database_connection(app)
+    repository = UserRepository(connection)
 
-# == End Example Code ==
+    email = request.form['email']
+    password = request.form['password']
+    if repository.check_password(email, password):
+        user = repository.find_by_email(email)
+        # Set the user ID in session
+        session['user_id'] = user.id
+        return redirect('/account_page')
+    else:
+        return render_template('users/login_error.html')
+
+@app.route('/signup')
+def signup():
+    return render_template('users/signup.html')
+
+@app.route('/signup', methods=['POST'])
+def signup_post():
+    connection = get_flask_database_connection(app)
+    repository = UserRepository(connection)
+
+    email = request.form['email']
+    password = sanitizer.sanitize(request.form.get('password'))
+    username = sanitizer.sanitize(request.form.get('username'))
+    # You already have an account!
+    if repository.find_by_email(email) is not None:
+        return render_template('users/account_exists.html')
+    # check email and password are valid
+    if repository.validity_checker(email, password) == False:
+        return render_template('users/signup_error.html')
+    # check username is unique
+    if repository.check_username_unique(username) == False:
+        return render_template('users/username_not_unique.html')
+
+    # Create account
+    else:
+        user = User(None, email, password, username)
+        repository.create(user)
+        session['user_id'] = user.id
+        return render_template('users/signup_success.html')
+
+# This route is an example of a "authenticated-only" route. It can be accessed 
+# only if a user is signed-in (if we have user information in session).
+@app.route('/account_page')
+def account_page():
+    connection = get_flask_database_connection(app)
+    repository = PostRepository(connection)
+    if 'user_id' not in session:
+        # No user id in the session so the user is not logged in.
+        return redirect('/login')
+    else:
+        # The user is logged in, display their account page.
+        user_id = session['user_id']
+        posts = repository.find_by_user(user_id)
+        return render_template('users/account.html', posts=posts)
+
+@app.route('/account_post', methods=['POST'])
+def account_post():
+    connection = get_flask_database_connection(app)
+    repository = PostRepository(connection)
+
+    message = sanitizer.sanitize(request.form.get('message'))
+    t = datetime.now()
+    time = t.strftime("%H:%M:%S")
+    user_id = session['user_id']
+    username = repository.find_username_with_userid(user_id)
+    post = Post(None, message, time, user_id, username)
+
+    repository.create(post)
+    return redirect('/')
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

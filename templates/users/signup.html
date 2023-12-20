@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Sign Up</title>
+    </head>
+    <body>
+        <h1>Sign Up</h1>
+        <p>Password Rules</p>
+        <p>Has minimum 8 characters in length.</p>
+        <p>At least one uppercase English letter.</p>
+        <p>At least one lowercase English letter. </p>
+        <p>At least one digit.</p>
+        <p>At least one special character.</p>
+        <p>One account per email</p>
+        <p>Username must be unique</p>
+        <form action="/signup" method="POST">
+            <p>
+                <label form="email">Email</label>
+                <br>
+                <input type="text" name="email" id="email">
+            </p>
+            <p>
+                <label form="password">Password</label>
+                <br>
+                <input type="text" name="password" id="password">
+            </p>
+            <p>
+                <label form="username">Username</label>
+                <br>
+                <input type="text" name="username" id="username">
+            </p>
+            <p>
+                <input type="submit" value="signup">
+            </p>
+        </form>
+    </body>
+</html>
