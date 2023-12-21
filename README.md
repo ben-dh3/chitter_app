@@ -2,14 +2,15 @@
 Created to illustrate learning on test driven development, postgreSQL, security.
 * Home page
     * Using postgreSQL to fetch a list of user posts.
+    * Styling created with Tailwind CSS.
 * Sign up to Chitter. 
     * Created a regex to ensure only secure passwords are accepted by the user. 
     * Regex ensures only valid email addresses are accepted. 
     * Username must be unique, database is checked to ensure this.
     * Password and username inputs are sanitized using html-sanitizer for security.
-    * When you successfully sign up the user is automatically logged in. Your session is remembered until you log out on your account page.
-    * If your sign up is unsuccessful, the user is taken to a page that reminds you of the password rules.
-    * If your username is not unique, the user is notified.
+    * On successful sign up the user is automatically logged in. The session is remembered until you log out on your account page.
+    * If the sign up is unsuccessful, the user is notified and reminded of the password rules.
+    * If the username is not unique, the user is notified.
     * If a user has already signed up with that email, the user is notified that the account already exists.
 * Account page.
     * See a list of your previous posts in reverse chronological order.
@@ -18,7 +19,7 @@ Created to illustrate learning on test driven development, postgreSQL, security.
 
 *In the future I intend to improve the UI by adding styling to the error pages. I also intend to add the ability for a user to retrieve a forgotten password by email.*
 
-*Next I intend to implement CICD with github actions and hosting the website using a cloud services provider*
+*Next I intend to implement CICD with github actions and hosting the website using a cloud services provider.*
 ## Setup
 
 ```shell
