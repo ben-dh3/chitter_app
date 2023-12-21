@@ -68,3 +68,4 @@ class UserRepository:
         if len(rows) > 0:
             return False
         return True
+

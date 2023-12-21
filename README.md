@@ -1,6 +1,24 @@
 # Chitter App
 Created to illustrate learning on test driven development, postgreSQL, security.
+* Home page
+    * Using postgreSQL to fetch a list of user posts.
+* Sign up to Chitter. 
+    * Created a regex to ensure only secure passwords are accepted by the user. 
+    * Regex ensures only valid email addresses are accepted. 
+    * Username must be unique, database is checked to ensure this.
+    * Password and username inputs are sanitized using html-sanitizer for security.
+    * When you successfully sign up the user is automatically logged in. Your session is remembered until you log out on your account page.
+    * If your sign up is unsuccessful, the user is taken to a page that reminds you of the password rules.
+    * If your username is not unique, the user is notified.
+    * If a user has already signed up with that email, the user is notified that the account already exists.
+* Account page.
+    * See a list of your previous posts in reverse chronological order.
+    * Create a new post and optionally tag another user. Created using Flask Mail and Mailtrap, an email is sent from Chitter to the tagged user notifying them that "username" has tagged them in a post, with their message quoted in the body of the email.
+    * Log out button clears the session making it necessary to sign back in.
 
+*In the future I intend to improve the UI by adding styling to the error pages. I also intend to add the ability for a user to retrieve a forgotten password by email.*
+
+*Next I intend to implement CICD with github actions and hosting the website using a cloud services provider*
 ## Setup
 
 ```shell

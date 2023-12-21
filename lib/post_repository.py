@@ -44,3 +44,15 @@ class PostRepository:
             "WHERE users.id = %s", [user_id])
         username = rows[0]["username"]
         return username
+    
+    # returns the email attached to a username in a post
+    def find_email_by_username(self, username):
+        rows = self._connection.execute(
+            "SELECT users.email AS user_email, users.username AS username " \
+            "FROM users " \
+            "WHERE users.username = %s", [username])
+        
+        if len(rows) > 0:
+            email = rows[0]["user_email"]
+            return email
+        return None
