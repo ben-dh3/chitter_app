@@ -12,6 +12,7 @@ pytest-xprocess = "*"
 py = "*"
 html-sanitizer = "*"
 flask-mail = "*"
+playwright = "*"
 
 [dev-packages]
 autopep8 = "*"
