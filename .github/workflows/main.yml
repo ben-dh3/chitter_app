@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-    steps:
       - name: Start PostgreSQL on Ubuntu
         run: |
           sudo systemctl start postgresql.service
@@ -25,7 +23,7 @@ jobs:
         run: |
           sudo -u postgres createdb chitter_app --owner=testuser 
           PGPASSWORD=password 
-          
+
       # Each step has a name, some code, and some options
       - name: Check out the code
         uses: actions/checkout@v3 # This is a reference to some code to run
