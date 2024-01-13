@@ -23,6 +23,8 @@ jobs:
         run: |
           sudo -u postgres createdb chitter_app --owner=testuser 
           PGPASSWORD=password 
+          sudo -u postgres createdb chitter_app_test --owner=testuser 
+          PGPASSWORD=password 
 
       # Each step has a name, some code, and some options
       - name: Check out the code
