@@ -47,3 +47,11 @@ Created to illustrate learning on test driven development, postgreSQL, security.
 ; python app.py
 # Now visit http://localhost:5001/ in your browser
 ```
+
+# Examples
+
+![example1](https://github.com/ben-dh3/chitter_app/blob/main/images/example1.png?raw=true)
+
+![example2](https://github.com/ben-dh3/chitter_app/blob/main/images/example2.png?raw=true)
+
+![example3](https://github.com/ben-dh3/chitter_app/blob/main/images/example3.png?raw=true)
