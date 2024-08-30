@@ -4,7 +4,6 @@ from flask import g
 from psycopg.rows import dict_row
 
 class DatabaseConnection:
-    # Remove hardcoded database names and use environment variables for flexibility
     DEV_DATABASE_NAME = os.getenv('DEV_DATABASE_NAME', 'chitter_app')
     TEST_DATABASE_NAME = os.getenv('TEST_DATABASE_NAME', 'chitter_app_test')
 
@@ -20,15 +19,18 @@ class DatabaseConnection:
             password = os.getenv('DB_PASSWORD', 'default_password')
             host = os.getenv('DB_HOST', 'localhost')
             port = os.getenv('DB_PORT', '5432')
+            sslmode = os.getenv('SSL_MODE', 'require')
 
             # Build the connection string
-            connection_string = f"postgresql://{user}:{password}@{host}:{port}/{db_name}"
+            connection_string = (
+                f"postgresql://{user}:{password}@{host}:{port}/{db_name}?sslmode={sslmode}"
+            )
 
             # Establish the connection using the psycopg library
             self.connection = psycopg.connect(connection_string, row_factory=dict_row)
         except psycopg.OperationalError as e:
             raise Exception(
-                f"Couldn't connect to the database {self._database_name()}! " \
+                f"Couldn't connect to the database {self._database_name()}! "
                 f"Error: {str(e)}"
             )
 
