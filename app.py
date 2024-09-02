@@ -30,19 +30,19 @@ def get_posts():
     connection = get_flask_database_connection(app)
     repository = PostRepository(connection)
     posts = repository.all()
-    return render_template('posts/index.html', posts=posts)
+    return render_template('index.html', posts=posts)
 
 # This route simply returns the login page
 @app.route('/login')
 def login():
     if not session.get("user_id"):
-        return render_template('users/login.html')
+        return render_template('login.html')
     return redirect('/account_page')
 
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('users/logout.html')
+    return render_template('logout.html')
 
 # This route receives login information (email and password) as POST parameters,
 # checks whether the credentials are valid, and if so finds the user in the database
@@ -61,11 +61,11 @@ def login_post():
         session['user_id'] = user.id
         return redirect('/account_page')
     else:
-        return render_template('users/login_error.html')
+        return render_template('login_error.html')
 
 @app.route('/signup')
 def signup():
-    return render_template('users/signup.html')
+    return render_template('signup.html')
 
 @app.route('/signup', methods=['POST'])
 def signup_post():
@@ -77,20 +77,20 @@ def signup_post():
     username = sanitizer.sanitize(request.form.get('username'))
     # You already have an account!
     if repository.find_by_email(email) is not None:
-        return render_template('users/account_exists.html')
+        return render_template('account_exists.html')
     # check email and password are valid
     if repository.validity_checker(email, password) == False:
-        return render_template('users/signup_error.html')
+        return render_template('signup_error.html')
     # check username is unique
     if repository.check_username_unique(username) == False:
-        return render_template('users/username_not_unique.html')
+        return render_template('username_not_unique.html')
 
     # Create account
     else:
         user = User(None, email, password, username)
         repository.create(user)
         session['user_id'] = user.id
-        return render_template('users/signup_success.html')
+        return render_template('signup_success.html')
 
 # This route is an example of a "authenticated-only" route. It can be accessed 
 # only if a user is signed-in (if we have user information in session).
@@ -105,7 +105,7 @@ def account_page():
         # The user is logged in, display their account page.
         user_id = session['user_id']
         posts = repository.find_by_user(user_id)
-        return render_template('users/account.html', posts=posts)
+        return render_template('account.html', posts=posts)
 
 @app.route('/account_post', methods=['POST'])
 def account_post():
