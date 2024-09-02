@@ -12,6 +12,7 @@ from lib.post import *
 mail = Mail()
 # Create a new Flask app
 app = Flask(__name__)
+
 sanitizer = Sanitizer()
 app.secret_key = os.environ.get('SECRET_KEY') or 'you-cannot-guess'
 # flask mail

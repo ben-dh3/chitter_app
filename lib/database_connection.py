@@ -11,8 +11,9 @@ class DatabaseConnection:
 
     def connect(self):
         try:
+            password = os.environ.get('DB_PASSWORD', '')
             self.connection = psycopg.connect(
-                f"postgresql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@{os.environ.get('DB_HOST')}:{os.environ.get('DB_PORT')}/{self._database_name()}",
+                f"postgresql://{os.environ.get('DB_USER')}:{password}@{os.environ.get('DB_HOST')}:{os.environ.get('DB_PORT')}/{self._database_name()}",
                 row_factory=dict_row
             )
         except psycopg.OperationalError:
