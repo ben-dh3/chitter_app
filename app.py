@@ -33,11 +33,26 @@ def get_posts():
     return render_template('index.html', posts=posts)
 
 # This route simply returns the login page
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    if not session.get("user_id"):
-        return render_template('login.html')
-    return redirect('/account_page')
+    if request.method == 'GET':
+        if not session.get("user_id"):
+            return render_template('login.html')
+        return redirect('/account_page')
+    else:
+        connection = get_flask_database_connection(app)
+        repository = UserRepository(connection)
+
+        email = request.form['email']
+        password = request.form['password']
+        if repository.check_password(email, password):
+            user = repository.find_by_email(email)
+            # Set the user ID in session
+            session['user_id'] = user.id
+            return redirect('/account_page')
+        else:
+            return render_template('login_error.html')
+
 
 @app.route('/logout')
 def logout():
@@ -48,49 +63,35 @@ def logout():
 # checks whether the credentials are valid, and if so finds the user in the database
 # using the email. If all goes well, it stores the user's ID in the session
 # and shows a success page.
-@app.route('/login', methods=['POST'])
-def login_post():
-    connection = get_flask_database_connection(app)
-    repository = UserRepository(connection)
 
-    email = request.form['email']
-    password = request.form['password']
-    if repository.check_password(email, password):
-        user = repository.find_by_email(email)
-        # Set the user ID in session
-        session['user_id'] = user.id
-        return redirect('/account_page')
-    else:
-        return render_template('login_error.html')
-
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template('signup.html')
-
-@app.route('/signup', methods=['POST'])
-def signup_post():
-    connection = get_flask_database_connection(app)
-    repository = UserRepository(connection)
-
-    email = request.form['email']
-    password = sanitizer.sanitize(request.form.get('password'))
-    username = sanitizer.sanitize(request.form.get('username'))
-    # You already have an account!
-    if repository.find_by_email(email) is not None:
-        return render_template('account_exists.html')
-    # check email and password are valid
-    if repository.validity_checker(email, password) == False:
-        return render_template('signup_error.html')
-    # check username is unique
-    if repository.check_username_unique(username) == False:
-        return render_template('username_not_unique.html')
-
-    # Create account
+    if request.method == 'GET':
+        return render_template('signup.html')
     else:
-        user = User(None, email, password, username)
-        repository.create(user)
-        session['user_id'] = user.id
-        return render_template('signup_success.html')
+        connection = get_flask_database_connection(app)
+        repository = UserRepository(connection)
+
+        email = request.form['email']
+        password = sanitizer.sanitize(request.form.get('password'))
+        username = sanitizer.sanitize(request.form.get('username'))
+        # You already have an account!
+        if repository.find_by_email(email) is not None:
+            return render_template('account_exists.html')
+        # check email and password are valid
+        if repository.validity_checker(email, password) == False:
+            return render_template('signup_error.html')
+        # check username is unique
+        if repository.check_username_unique(username) == False:
+            return render_template('username_not_unique.html')
+
+        # Create account
+        else:
+            user = User(None, email, password, username)
+            repository.create(user)
+            session['user_id'] = user.id
+            return render_template('signup_success.html')
+
 
 # This route is an example of a "authenticated-only" route. It can be accessed 
 # only if a user is signed-in (if we have user information in session).
