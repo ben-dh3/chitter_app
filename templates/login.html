@@ -1,21 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Login</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-        <script>
-        tailwind.config = {
-            theme: {
-            extend: {
-                fontFamily: {
-                poppins: ["Poppins"],
-                },
-            },
-            },
-        };
-        </script>
+        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
     </head>
     <body class="bg-neutral-950 text-white font-poppins flex flex-col items-center justify-center gap-3 mt-10">
         <h1 class="text-2xl font-bold">Login</h1>
