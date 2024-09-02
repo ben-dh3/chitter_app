@@ -1,40 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
-        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-    </head>
-    <body>
-        <h1>Sign Up</h1>
-        <p>Password Rules</p>
-        <p>Has minimum 8 characters in length.</p>
-        <p>At least one uppercase English letter.</p>
-        <p>At least one lowercase English letter. </p>
-        <p>At least one digit.</p>
-        <p>At least one special character.</p>
-        <p>One account per email</p>
-        <p>Username must be unique</p>
-        <form action="/signup" method="POST">
-            <p>
-                <label form="email">Email</label>
-                <br>
-                <input type="text" name="email" id="email">
-            </p>
-            <p>
-                <label form="password">Password</label>
-                <br>
-                <input type="text" name="password" id="password">
-            </p>
-            <p>
-                <label form="username">Username</label>
-                <br>
-                <input type="text" name="username" id="username">
-            </p>
-            <p>
-                <input type="submit" value="signup">
-            </p>
-        </form>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <style>
+        /* Password requirements hidden by default */
+        .password-requirements {
+            display: none;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background-color: #f8f8f8;
+            border-radius: 0.5rem;
+            color: #333;
+            font-size: 0.875rem;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body class="w-screen h-screen flex bg-black justify-center">
+    <div class="mx-20 self-center bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <div class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Sign Up</div>
+            <form class="space-y-4 md:space-y-6" action="/signup" method="POST">
+                <div>
+                    <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Username" required="">
+                </div>
+                <div>
+                    <input type="text" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 " placeholder="Email" required="">
+                </div>
+                <div>
+                    <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Password" required="">
+                    <!-- Password requirements section -->
+                    <div id="password-requirements" class="password-requirements">
+                        <p>Password must have:</p>
+                        <ul>
+                            <li>At least 8 characters</li>
+                            <li>At least one uppercase letter</li>
+                            <li>At least one lowercase letter</li>
+                            <li>At least one number</li>
+                            <li>At least one special character</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <input type="submit" value="Sign up" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript to handle the show/hide of password requirements -->
+    <script>
+        const passwordField = document.getElementById('password');
+        const passwordRequirements = document.getElementById('password-requirements');
+
+        passwordField.addEventListener('focus', () => {
+            passwordRequirements.style.display = 'block';
+        });
+
+        passwordField.addEventListener('blur', () => {
+            passwordRequirements.style.display = 'none';
+        });
+    </script>
+</body>
 </html>

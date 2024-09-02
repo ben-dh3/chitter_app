@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head></head>
-    <body>
-        <h1>Signup Success</h1>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Successful</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Signup Successful!</h1>
+        <p>Thank you for signing up. You will be redirected to your feed shortly.</p>
+    </div>
+
+    <script>
+        setTimeout(function() {
+            window.location.href = "{{ url_for('feed') }}";
+        }, 3000);
+    </script>
+</body>
 </html>
