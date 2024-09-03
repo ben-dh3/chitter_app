@@ -11,7 +11,7 @@ CREATE TABLE users (
 CREATE TABLE posts (
     id SERIAL PRIMARY KEY,
     message VARCHAR(255),
-    time time,
+    time VARCHAR(255),
     user_id INTEGER,
     username VARCHAR(255)
 );

@@ -5,27 +5,75 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     </head>
-    <body class="bg-black text-white font-poppins flex flex-col items-center justify-center gap-3 mt-10">
-        <h1 class="text-4xl font-bold">Chitter 🦅</h1>
-        <div class="flex flex-row gap-3">
-            <p class="bg-blue-500 text-xl text-white font-bold py-2 px-4 rounded-lg cursor-pointer mt-4 gap-3">
-                <a href="/login">Log In</a>
-            </p>
-            <p class="bg-yellow-500 text-xl text-white font-bold py-2 px-4 rounded-lg cursor-pointer mt-4 gap-3">
-                <a href="/signup">Sign Up</a>
-            </p>
+    <body class="w-screen h-screen flex flex-col items-center">
+        <div class="absolute right-0 top-0">
+            <a href="/logout">Log Out</a>   
         </div>
         
+        <div >
+            <form action="/feed" method="POST" class="flex flex-col">
+                <div class="border">
+                    <p >
+                        <input class="text-black" placeholder="What's on your mind?" type="text" name="message" id="message" required>
+                    </p>
+                    <p >
+                        <input class="text-black" placeholder="Tag someone?" type="text" name="tag" id="tag">
+                    </p>  
+                </div>
+                <p class="flex justify-end">
+                    <input type="submit" value="Post" class="cursor-pointer text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
+                </p>
+            </form>
+        </div>
+        
+
         <ul class="flex flex-col gap-3">
             {% for post in posts %}
                 <div>
-                    <p>Username: {{post.username}}</p>
-                    <p>Message: {{post.message}}</p>
-                    <p>Time: {{post.time}}</p>
+                    <div class="flex flex-row space-x-2">
+                        <p>{{post.username}}</p>
+                        <div>•</div>
+                        <p class="post-time" data-time="{{ post.time }}"></p>
+                    </div>
+                    <p>{{post.message}}</p>
                 </div>
             {% endfor %}
         </ul>
 
+        <script>
+            function updatePostTimes() {
+                const timeElements = document.querySelectorAll('.post-time');
+        
+                timeElements.forEach(element => {
+                    const postTimeStr = element.getAttribute('data-time');
+                    const postTime = new Date(postTimeStr);
+                    const currentTime = new Date();
+                    const timeDiffInMs = currentTime - postTime;
+                    const timeDiffInSeconds = Math.floor(timeDiffInMs / 1000);
+                    const timeDiffInMinutes = Math.floor(timeDiffInSeconds / 60);
+                    const timeDiffInHours = Math.floor(timeDiffInMinutes / 60);
+        
+                    let timeSincePost;
+        
+                    if (timeDiffInMs < 6000) {
+                        timeSincePost = `Just now`;
+                    } else if (timeDiffInMinutes < 60) {
+                        timeSincePost = `${timeDiffInMinutes} minute${timeDiffInMinutes > 1 ? 's' : ''} ago`;
+                    } else {
+                        const roundedHours = Math.round(timeDiffInHours + (timeDiffInMinutes % 60 >= 30 ? 1 : 0));
+                        timeSincePost = `${roundedHours} hour${roundedHours > 1 ? 's' : ''} ago`;
+                    }
+        
+                    element.textContent = timeSincePost;
+                });
+            }
+        
+            document.addEventListener("DOMContentLoaded", function() {
+                updatePostTimes();
+                setInterval(updatePostTimes, 60000);
+            });
+        </script>
     </body>
 </html>

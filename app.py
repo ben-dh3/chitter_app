@@ -68,7 +68,7 @@ def feed():
         email = repository.find_email_by_username(tag)
         # create a post object
         t = datetime.now()
-        time = t.strftime("%H:%M:%S")
+        time = t.isoformat()
         user_id = session['user_id']
         username = repository.find_username_with_userid(user_id)
         post = Post(None, message, time, user_id, username)
@@ -89,7 +89,7 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        return render_template('signup2.html')
+        return render_template('signup.html')
     else:
         connection = get_flask_database_connection(app)
         repository = UserRepository(connection)
