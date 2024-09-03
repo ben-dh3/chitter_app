@@ -7,41 +7,43 @@
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     </head>
-    <body class="w-screen h-screen flex flex-col items-center">
-        <div class="absolute right-0 top-0">
+    <body class="w-full h-full flex flex-col">
+        <div class="flex justify-end">
             <a href="/logout">Log Out</a>   
         </div>
-        
-        <div >
-            <form action="/feed" method="POST" class="flex flex-col">
-                <div class="border">
-                    <p >
-                        <input class="text-black" placeholder="What's on your mind?" type="text" name="message" id="message" required>
+        <div class="flex flex-row">
+            <div class="flex-1"></div>
+            <div class="flex-1 border h-screen">
+                <form action="/feed" method="POST" class="border flex flex-col">
+                    <div class="">
+                        <p >
+                            <textarea class="w-full focus:outline-none" placeholder="What's on your mind?" name="message" id="message" required maxlength="255"></textarea>
+                        </p>
+                        <p >
+                            <input class="focus:outline-none" placeholder="Tag someone?" type="text" name="tag" id="tag">
+                        </p>  
+                    </div>
+                    <p class="flex justify-end">
+                        <input type="submit" value="Post" class="cursor-pointer text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
                     </p>
-                    <p >
-                        <input class="text-black" placeholder="Tag someone?" type="text" name="tag" id="tag">
-                    </p>  
-                </div>
-                <p class="flex justify-end">
-                    <input type="submit" value="Post" class="cursor-pointer text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
-                </p>
-            </form>
+                </form>
+
+                 <ul class="flex flex-col">
+                    {% for post in posts %}
+                        <div class="border">
+                            <div class="flex flex-row space-x-2">
+                                <p class="font-semibold">{{post.username}}</p>
+                                <div>•</div>
+                                <p class="post-time" data-time="{{ post.time }}"></p>
+                            </div>
+                            <p class="">{{post.message}}</p>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="flex-1"></div>
         </div>
         
-
-        <ul class="flex flex-col gap-3">
-            {% for post in posts %}
-                <div>
-                    <div class="flex flex-row space-x-2">
-                        <p>{{post.username}}</p>
-                        <div>•</div>
-                        <p class="post-time" data-time="{{ post.time }}"></p>
-                    </div>
-                    <p>{{post.message}}</p>
-                </div>
-            {% endfor %}
-        </ul>
-
         <script>
             function updatePostTimes() {
                 const timeElements = document.querySelectorAll('.post-time');
@@ -57,7 +59,7 @@
         
                     let timeSincePost;
         
-                    if (timeDiffInMs < 6000) {
+                    if (timeDiffInMs < 60000) {
                         timeSincePost = `Just now`;
                     } else if (timeDiffInMinutes < 60) {
                         timeSincePost = `${timeDiffInMinutes} minute${timeDiffInMinutes > 1 ? 's' : ''} ago`;
@@ -73,6 +75,21 @@
             document.addEventListener("DOMContentLoaded", function() {
                 updatePostTimes();
                 setInterval(updatePostTimes, 60000);
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const textareas = document.querySelectorAll('textarea');
+    
+                textareas.forEach(textarea => {
+                    function adjustHeight() {
+                        textarea.style.height = 'auto'; 
+                        textarea.style.height = `${textarea.scrollHeight}px`;
+                    }
+    
+                    textarea.addEventListener('input', adjustHeight);
+                    adjustHeight();
+                });
             });
         </script>
     </body>
