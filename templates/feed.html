@@ -8,12 +8,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     </head>
     <body class="w-full h-full flex flex-col">
+        {% include '_shader_background.html' %}
         <div class="flex justify-end">
             <a href="/logout">Log Out</a>   
         </div>
         <div class="flex flex-row">
             <div class="flex-1"></div>
-            <div class="flex-1 border h-screen">
+            <div class="bg-white flex-1 border h-screen">
                 <form action="/feed" method="POST" class="border flex flex-col">
                     <div class="">
                         <p >

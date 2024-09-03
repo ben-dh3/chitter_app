@@ -7,6 +7,7 @@
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
     </head>
     <body class="w-screen h-screen flex flex-row">
+        {% include '_shader_background.html' %}
         <div class="flex bg-gray-50 h-full w-auto">
             <div class="mx-20 self-center md:mt-0 sm:max-w-md xl:p-0">
                 <div class="space-y-4 p-6 md:space-y-6 sm:p-8">
@@ -36,7 +37,7 @@
         </div>
         
             
-        <div class="flex flex-1 bg-black justify-center">
+        <div class="flex flex-1 bg-transparent justify-center">
             <div class="text-8xl text-white">MAKE A SPLASH</div>
         </div>
         
