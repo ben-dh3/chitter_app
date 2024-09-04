@@ -3,92 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shader Background</title>
+    <title>Three.js with GLSL Shaders</title>
     <style>
-        #webgl-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+        #threejs-canvas {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
         }
-    </style>
+      </style>
 </head>
 <body>
-    <canvas id="webgl-canvas"></canvas>
-    <script type="x-shader/x-vertex" id="vertex-shader">
-        attribute vec4 a_position;
-        void main() {
-            gl_Position = a_position;
-        }
-    </script>
-    <script type="x-shader/x-fragment" id="fragment-shader">
-        precision mediump float;
-        void main() {
-            gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const canvas = document.getElementById('webgl-canvas');
-            const gl = canvas.getContext('webgl');
-            if (!gl) {
-                console.error('WebGL not supported');
-                return;
-            }
-            const vertexShaderSource = document.getElementById('vertex-shader').textContent;
-            const fragmentShaderSource = document.getElementById('fragment-shader').textContent;
-
-            function createShader(gl, type, source) {
-                const shader = gl.createShader(type);
-                gl.shaderSource(shader, source);
-                gl.compileShader(shader);
-                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                    console.error('Shader compile error:', gl.getShaderInfoLog(shader));
-                    gl.deleteShader(shader);
-                    return null;
-                }
-                return shader;
-            }
-
-            const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-            const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-
-            const shaderProgram = gl.createProgram();
-            gl.attachShader(shaderProgram, vertexShader);
-            gl.attachShader(shaderProgram, fragmentShader);
-            gl.linkProgram(shaderProgram);
-
-            if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-                console.error('Shader program link error:', gl.getProgramInfoLog(shaderProgram));
-                return;
-            }
-
-            gl.useProgram(shaderProgram);
-
-            const vertices = new Float32Array([
-                -1.0, -1.0, 0.0,
-                 1.0, -1.0, 0.0,
-                -1.0,  1.0, 0.0,
-                -1.0,  1.0, 0.0,
-                 1.0, -1.0, 0.0,
-                 1.0,  1.0, 0.0
-            ]);
-
-            const vertexBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-            const position = gl.getAttribLocation(shaderProgram, 'a_position');
-            gl.enableVertexAttribArray(position);
-            gl.vertexAttribPointer(position, 3, gl.FLOAT, false, 0, 0);
-
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-
-            gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3);
-        });
-    </script>
+    <canvas id="threejs-canvas"></canvas>
+    <script type="module" src="{{ url_for('static', filename='js/scene.js') }}"></script>
 </body>
 </html>
+
