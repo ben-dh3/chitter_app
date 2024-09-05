@@ -107,5 +107,5 @@ void main() {
   float f = fresnel(eyeVector, normal, uFresnelPower);
   color.rgb += f * vec3(1.0);
 
-  gl_FragColor = vec4(color, 1.0);
+  gl_FragColor = vec4(color, 0.5);
 }
