@@ -64,13 +64,13 @@ async function loadShader(url) {
     // torus mesh
     const torusGeometry = new THREE.TorusGeometry(1.2, 0.5, 12, 48);
     const torusMesh = new THREE.Mesh(torusGeometry, shaderMaterial);
-    torusMesh.position.set(6, 4, -2);
+    torusMesh.position.set(0, 0, -2);
     scene.add(torusMesh);
 
     // cylinder mesh
     const cylinderGeometry = new THREE.CylinderGeometry( 1.2, 1.2, 2.4, 48, 48 );
     const cylinderMesh = new THREE.Mesh(cylinderGeometry, shaderMaterial);
-    cylinderMesh.position.set(3, 0, -2);
+    cylinderMesh.position.set(3, 10, -2);
     scene.add(cylinderMesh);
 
     // ocosohedron mesh
