@@ -6,37 +6,47 @@
         <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <style>
+            .break-word {
+            word-break: break-word;
+        }
+        </style>
     </head>
-    <body class="w-full h-full flex flex-col">
-        <div class="flex justify-end">
-            <a href="/logout">Log Out</a>   
-        </div>
+    <body class="w-full h-full flex flex-col text-white">
+        {% include '_shader_background.html' %}
+        
         <div class="flex flex-row">
-            <div class="bg-white flex-1"></div>
-            <div class="bg-white flex-1 border h-full" style="background-color: rgba(248, 250, 252, 0.95)">
-                <form action="/feed" method="POST" class="bg-white border flex flex-col">
+            <div class="flex-1"></div>
+            <div class="flex-1 border-x min-h-screen border-neutral-700" style="background-color: rgba(0, 0, 0, 0.8)">
+                <div class="border-b border-neutral-700 self-center flex justify-end">
+                     <a href="/logout">
+                    <button class="hover:bg-gray-900 p-5">Log Out </button>
+                    </a>
+                </div>
+                <form action="/feed" method="POST" class="p-2 bg-transparent border-b flex flex-col border-neutral-700">
                     <div class="">
                         <p >
-                            <textarea class="w-full focus:outline-none" placeholder="What's on your mind?" name="message" id="message" required maxlength="255"></textarea>
+                            <textarea class="bg-transparent w-full focus:outline-none" placeholder="What's on your mind?" name="message" id="message" required maxlength="255"></textarea>
                         </p>
                         <p >
-                            <input class="focus:outline-none" placeholder="Tag someone?" type="text" name="tag" id="tag">
+                            <input class="bg-transparent focus:outline-none" placeholder="Tag someone?" type="text" name="tag" id="tag">
                         </p>  
                     </div>
-                    <p class="flex justify-end">
-                        <input type="submit" value="Post" class="cursor-pointer text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
+                    <hr class="mt-6 mx-4 border-neutral-700">
+                    <p class="flex justify-end items-center mt-2">
+                        <input type="submit" value="Post" class="cursor-pointer text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
                     </p>
                 </form>
 
                  <ul class="flex flex-col">
                     {% for post in posts %}
-                        <div class="border">
+                        <div class="p-2 border-b border-neutral-700">
                             <div class="flex flex-row space-x-2">
                                 <p class="font-semibold">{{post.username}}</p>
                                 <div>•</div>
-                                <p class="post-time" data-time="{{ post.time }}"></p>
+                                <p class="post-time text-neutral-500" data-time="{{ post.time }}"></p>
                             </div>
-                            <p class="">{{post.message}}</p>
+                            <p class="break-word">{{post.message}}</p>
                         </div>
                     {% endfor %}
                 </ul>
