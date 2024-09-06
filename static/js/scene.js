@@ -50,32 +50,38 @@ async function loadShader(url) {
         fontLoader.load('/static/fonts/Montserrat Black_Regular.json', resolve);
     });
 
-    const textGeometry = new THREE.TextGeometry('MAKE\nYOUR\nMARK', {
-        font: font,
-        size: 0.8,
-        height: 0,
+    const textLines = ['MAKE', 'YOUR', 'MARK'];
+    const lineHeight = 2.0;
+
+    textLines.forEach((line, index) => {
+        const textGeometry = new THREE.TextGeometry(line, {
+            font: font,
+            size: 1.8,
+            height: 0,
+        });
+        const textMaterial = new THREE.MeshStandardMaterial({ color: 'white' });
+        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+        textMesh.position.set(-2.0, 1.0 - (index * lineHeight), 0); 
+        
+        scene.add(textMesh);
     });
-    const textMaterial = new THREE.MeshStandardMaterial({ color: 'white' });
-    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-    textMesh.position.set(0, 1.0, 0); 
-    scene.add(textMesh)
 
     // torus mesh
-    const torusGeometry = new THREE.TorusGeometry(0.6, 0.25, 12, 48);
+    const torusGeometry = new THREE.TorusGeometry(0.5, 0.15, 12, 48);
     const torusMesh = new THREE.Mesh(torusGeometry, shaderMaterial);
-    torusMesh.position.set(0, 0.5, 0.5);
+    torusMesh.position.set(-0.5, 0.5, 3.0);
     scene.add(torusMesh);
 
     // icosahedron mesh
-    const icosahedronGeometry = new THREE.IcosahedronGeometry( 0.22, 5);
+    const icosahedronGeometry = new THREE.IcosahedronGeometry( 0.20, 5);
     const icosahedronMesh = new THREE.Mesh(icosahedronGeometry, shaderMaterial);
-    icosahedronMesh.position.set(0.1, -0.7, 2.8);
+    icosahedronMesh.position.set(0.18, -0.7, 4.0);
     scene.add(icosahedronMesh);
 
     // cylinder mesh
     const cylinderGeometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 32);
     const cylinderMesh = new THREE.Mesh(cylinderGeometry, shaderMaterial);
-    cylinderMesh.position.set(0.5, -0.1, 3.0);
+    cylinderMesh.position.set(0.60, -0.1, 3.6);
     scene.add(cylinderMesh);
 
     // light
