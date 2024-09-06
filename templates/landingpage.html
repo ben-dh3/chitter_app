@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Chitter. Make your mark / Chitter</title>
         <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
         <style>
             .title-font {
@@ -16,13 +16,20 @@
                font-family: 'Montserrat', sans-serif;
                font-weight: 400;
             }
+            .chitter-font {
+               font-family: 'Orbitron', sans-serif;
+               font-weight: 900;
+            }
         </style>
     </head>
     <body class="w-screen h-screen flex bg-transparent justify-left">
         {% include '_shader_background.html' %}
         <div class="flex-1 mx-20 self-center bg-black md:mt-0 sm:max-w-md xl:p-0">
+
             <div class="space-y-4 p-6 md:space-y-6 sm:p-8">
-                <div class="title-font text-2xl text-white">JOIN TODAY.</div>
+                <div class="chitter-font text-white text-7xl">Chitter</div>
+
+                <div class="title-font text-2xl text-white">Join today.</div>
                 <div>
                     <a  href="{{ url_for('signup') }}">
                         <button class="title-font w-full text-white bg-sky-500 hover:bg-sky-600 focus:ring-2 focus:outline-none focus:ring-sky-500 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
