@@ -66,7 +66,7 @@
         <script>
             function updatePostTimes() {
                 const timeElements = document.querySelectorAll('.post-time');
-        
+
                 timeElements.forEach(element => {
                     const postTimeStr = element.getAttribute('data-time');
                     const postTime = new Date(postTimeStr);
@@ -75,21 +75,25 @@
                     const timeDiffInSeconds = Math.floor(timeDiffInMs / 1000);
                     const timeDiffInMinutes = Math.floor(timeDiffInSeconds / 60);
                     const timeDiffInHours = Math.floor(timeDiffInMinutes / 60);
-        
+                    const timeDiffInDays = Math.floor(timeDiffInHours / 24);
+
                     let timeSincePost;
-        
+
                     if (timeDiffInMs < 60000) {
                         timeSincePost = `Just now`;
                     } else if (timeDiffInMinutes < 60) {
                         timeSincePost = `${timeDiffInMinutes} minute${timeDiffInMinutes > 1 ? 's' : ''} ago`;
-                    } else {
+                    } else if (timeDiffInHours < 24) {
                         const roundedHours = Math.round(timeDiffInHours + (timeDiffInMinutes % 60 >= 30 ? 1 : 0));
                         timeSincePost = `${roundedHours} hour${roundedHours > 1 ? 's' : ''} ago`;
+                    } else {
+                        timeSincePost = `${timeDiffInDays} day${timeDiffInDays > 1 ? 's' : ''} ago`;
                     }
-        
+
                     element.textContent = timeSincePost;
                 });
             }
+
         
             document.addEventListener("DOMContentLoaded", function() {
                 updatePostTimes();

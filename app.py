@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from html_sanitizer import Sanitizer
 from flask import Flask, request, render_template, session, redirect
 from flask_mail import Mail, Message
@@ -68,7 +68,7 @@ def feed():
         tag = sanitizer.sanitize(request.form.get('tag'))
         email = repository.find_email_by_username(tag)
         # create a post object
-        t = datetime.now()
+        t = datetime.now(timezone.utc)
         time = t.isoformat()
         user_id = session['user_id']
         username = repository.find_username_with_userid(user_id)
