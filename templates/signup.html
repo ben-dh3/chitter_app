@@ -16,28 +16,21 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 400;
         }
-        .password-requirements {
-            display: none;
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            background-color: #f8f8f8;
-            border-radius: 0.5rem;
-            color: #333;
-            font-size: 0.875rem;
-            border: 1px solid #ddd;
-        }
     </style>
 </head>
 <body class="w-screen h-screen flex bg-transparent justify-left">
     {% include '_shader_background.html' %}
-    <div class="mx-20 self-center bg-black md:mt-0 sm:max-w-md xl:p-0">
+    <div class="flex-1 mx-20 self-center bg-black md:mt-0 sm:max-w-md xl:p-0">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <div class="self-center flex justify-start text-white">
                 <a href="/">
-                    <i class="fas fa-xmark"></i>
-                </a>
+                    <button class="title-font cursor-pointer text-white bg-transparent hover:bg-gray-900 focus:outline-none rounded-3xl text-sm px-5 py-2.5 text-center"><i class="fas fa-chevron-left"></i> Back</button>
+                </a> 
             </div>
             <div class="title-font text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">Create your account</div>
+            {% if error %}
+                <div class="text-red-600 text-font">{{ error }}</div>
+            {% endif %}
             <form class="text-font space-y-4 md:space-y-6" action="/signup" method="POST">
                 <div>
                     <input type="text" name="username" id="username" class="bg-transparent border border-gray-300 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="Username" required="">
@@ -47,9 +40,9 @@
                 </div>
                 <div>
                     <input type="password" name="password" id="password" class="bg-transparent border border-gray-300 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="Password" required="">
-                    <div id="password-requirements" class="password-requirements">
-                        <p>Password must have:</p>
-                        <ul>
+                    <div class="text-white text-font mt-2">
+                        <div class="title-font text-sm">Choose a password with:</div>
+                        <ul class="text-sm">
                             <li>At least 8 characters</li>
                             <li>At least one uppercase letter</li>
                             <li>At least one lowercase letter</li>
@@ -59,23 +52,10 @@
                     </div>
                 </div>
                 <div>
-                    <input type="submit" value="Sign up" class="title-font cursor-pointer w-full text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
+                    <input type="submit" value="Sign up" class="title-font cursor-pointer w-full text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-3xl text-sm px-5 py-2.5 text-center">
                 </div>
             </form>
         </div>
     </div>
-
-    <script>
-        const passwordField = document.getElementById('password');
-        const passwordRequirements = document.getElementById('password-requirements');
-
-        passwordField.addEventListener('focus', () => {
-            passwordRequirements.style.display = 'block';
-        });
-
-        passwordField.addEventListener('blur', () => {
-            passwordRequirements.style.display = 'none';
-        });
-    </script>
 </body>
 </html>

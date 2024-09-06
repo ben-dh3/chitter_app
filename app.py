@@ -45,7 +45,8 @@ def landingpage():
             return redirect('/feed')
         else:
             # return the same page with errors populated
-            return redirect('/')
+            error = 'Password or email incorrect.'
+            return render_template('landingpage.html', error=error)
 
 # feed page shows posts, new post form, and logout button
 @app.route('/feed', methods=['GET', 'POST'])
@@ -85,11 +86,10 @@ def logout():
     # when logged out return to landing page
     return redirect('/')
 
-# signup page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        return render_template('signup.html')
+        return render_template('signup.html', error=None)
     else:
         connection = get_flask_database_connection(app)
         repository = UserRepository(connection)
@@ -97,22 +97,27 @@ def signup():
         email = request.form['email']
         password = sanitizer.sanitize(request.form.get('password'))
         username = sanitizer.sanitize(request.form.get('username'))
+
         # You already have an account!
         if repository.find_by_email(email) is not None:
-            return render_template('account_exists.html')
-        # check email and password are valid
-        if repository.validity_checker(email, password) == False:
-            return render_template('signup_error.html')
-        # check username is unique
-        if repository.check_username_unique(username) == False:
-            return render_template('username_not_unique.html')
-
+            error = 'You already have an account with this email.'
+            return render_template('signup.html', error=error)
+        
+        # Check email and password are valid
+        if not repository.validity_checker(email, password):
+            error = 'Invalid email or password.'
+            return render_template('signup.html', error=error)
+        
+        # Check username is unique
+        if not repository.check_username_unique(username):
+            error = 'Username is already taken.'
+            return render_template('signup.html', error=error)
+        
         # Create account
-        else:
-            user = User(None, email, password, username)
-            repository.create(user)
-            session['user_id'] = user.id
-            return render_template('signup_success.html')
+        user = User(None, email, password, username)
+        repository.create(user)
+        session['user_id'] = user.id
+        return render_template('signup_success.html')
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

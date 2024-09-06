@@ -18,34 +18,35 @@
             }
         </style>
     </head>
-    <body class="w-screen h-screen flex flex-row">
+    <body class="w-screen h-screen flex bg-transparent justify-left">
         {% include '_shader_background.html' %}
-        <div class="flex bg-black h-full w-auto">
-            <div class="mx-20 self-center md:mt-0 sm:max-w-md xl:p-0">
-                <div class="space-y-4 p-6 md:space-y-6 sm:p-8">
-                    <div class="title-font text-2xl text-white">JOIN TODAY.</div>
-                    <div>
-                        <a  href="{{ url_for('signup') }}">
-                            <button class="title-font w-full text-white bg-sky-500 hover:bg-sky-600 focus:ring-2 focus:outline-none focus:ring-sky-500 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
-                            Create an account
-                            </button>
-                        </a>
-                    </div>
-                    <hr class="my-6 border-gray-300">
-                    <div class="text-font mt-20 text-white">Already have an account?</div>
-                    <div class="title-font text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">Sign In</div>
-                    <form class="text-font space-y-4 md:space-y-6" action="/" method="POST">
-                        <div>
-                            <input type="text" name="email" id="email" class="bg-transparent border border-gray-300 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="Email" required="">
-                        </div>
-                        <div>
-                            <input type="text" name="password" id="password" class="bg-transparent border border-gray-300 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="Password" required="">
-                        </div>
-                        <div>
-                            <input type="submit" value="Next" class="title-font cursor-pointer w-full text-sky-500 bg-transparent border border-sky-500 hover:bg-sky-900 focus:ring-2 focus:outline-none focus:ring-sky-500 font-medium rounded-3xl px-5 py-2.5 text-center text-sm">
-                        </div>
-                    </form>
+        <div class="flex-1 mx-20 self-center bg-black md:mt-0 sm:max-w-md xl:p-0">
+            <div class="space-y-4 p-6 md:space-y-6 sm:p-8">
+                <div class="title-font text-2xl text-white">JOIN TODAY.</div>
+                <div>
+                    <a  href="{{ url_for('signup') }}">
+                        <button class="title-font w-full text-white bg-sky-500 hover:bg-sky-600 focus:ring-2 focus:outline-none focus:ring-sky-500 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
+                        Create an account
+                        </button>
+                    </a>
                 </div>
+                <hr class="my-6 border-gray-300">
+                <div class="text-font mt-20 text-white">Already have an account?</div>
+                <div class="title-font text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">Sign In</div>
+                {% if error %}
+                    <div class="text-red-600 text-font">{{ error }}</div>
+                {% endif %}
+                <form class="text-font space-y-4 md:space-y-6" action="/" method="POST">
+                    <div>
+                        <input type="text" name="email" id="email" class="bg-transparent border border-gray-300 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="Email" required="">
+                    </div>
+                    <div>
+                        <input type="text" name="password" id="password" class="bg-transparent border border-gray-300 text-white rounded-lg focus:ring-2 focus:outline-none focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="Password" required="">
+                    </div>
+                    <div>
+                        <input type="submit" value="Next" class="title-font cursor-pointer w-full text-sky-500 bg-transparent border border-sky-500 hover:bg-sky-900 focus:ring-2 focus:outline-none focus:ring-sky-500 font-medium rounded-3xl px-5 py-2.5 text-center text-sm">
+                    </div>
+                </form>
             </div>
         </div>
     </body>

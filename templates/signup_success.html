@@ -3,18 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Successful</title>
+    <title>Sign up successful / Chitter</title>
+    <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <style>
+        .title-font {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        .text-font {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Signup Successful!</h1>
-        <p>Thank you for signing up. You will be redirected to your feed shortly.</p>
+<body class="w-screen h-screen flex flex-col bg-transparent items-center text-white">
+    {% include '_shader_background.html' %}
+    <div class="flex mt-20 space-y-2"></div>
+        <div class="title-font text-2xl">Signup Successful!</div>
+        <div class="text-font">Thank you for signing up. You will be redirected to your feed shortly.</div>
     </div>
 
     <script>
         setTimeout(function() {
             window.location.href = "{{ url_for('feed') }}";
-        }, 3000);
+        }, 2000);
     </script>
 </body>
 </html>

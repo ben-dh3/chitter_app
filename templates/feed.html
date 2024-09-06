@@ -23,7 +23,6 @@
     </head>
     <body class="w-full h-full flex flex-col text-white">
         {% include '_shader_background.html' %}
-        
         <div class="flex flex-row">
             <div class="flex-1"></div>
             <div class="flex-1 border-x min-h-screen border-neutral-700" style="background-color: rgba(0, 0, 0, 0.8)">
@@ -43,7 +42,7 @@
                     </div>
                     <hr class="mt-6 mx-4 border-neutral-700">
                     <p class="flex justify-end items-center mt-2">
-                        <input type="submit" value="Post" class="title-font cursor-pointer text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
+                        <input type="submit" value="Post" class="title-font cursor-pointer text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-3xl text-sm px-5 py-2.5 text-center">
                     </p>
                 </form>
 
@@ -55,7 +54,7 @@
                                 <div class="text-neutral-500">•</div>
                                 <p class="text-font post-time text-neutral-500" data-time="{{ post.time }}"></p>
                             </div>
-                            <p class="text-font break-word mt-2">{{post.message}}</p>
+                            <p class="text-lg text-font break-word mt-2">{{post.message}}</p>
                         </div>
                     {% endfor %}
                 </ul>
