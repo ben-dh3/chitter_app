@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home / Chitter</title>
         <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
@@ -49,8 +50,8 @@
                  <ul class="flex flex-col">
                     {% for post in posts %}
                         <div class="p-2 border-b border-neutral-700">
-                            <div class="flex flex-row space-x-2">
-                                <p class="title-font">{{post.username}}</p>
+                            <div class="flex flex-row space-x-2 items-center">
+                                <p class="text-lg title-font">{{post.username}}</p>
                                 <div class="text-neutral-500">•</div>
                                 <p class="text-font post-time text-neutral-500" data-time="{{ post.time }}"></p>
                             </div>
