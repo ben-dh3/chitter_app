@@ -118,6 +118,43 @@ def signup():
         repository.create(user)
         session['user_id'] = user.id
         return render_template('signup_success.html')
+    
+
+@app.route('/post/<int:post_id>/delete', methods=['POST'])
+def delete_post(post_id):
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    connection = get_flask_database_connection(app)
+    repository = PostRepository(connection)
+    
+    # Try to delete the post
+    if repository.delete(post_id, session['user_id']):
+        return redirect('/feed')
+    else:
+        return "Unauthorized", 403
+
+@app.route('/post/<int:post_id>/edit', methods=['GET', 'POST'])
+def edit_post(post_id):
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    connection = get_flask_database_connection(app)
+    repository = PostRepository(connection)
+    
+    post = repository.find_by_id(post_id)
+    
+    if post is None or post.user_id != session['user_id']:
+        return "Unauthorized", 403
+    
+    if request.method == 'GET':
+        return render_template('edit_post.html', post=post)
+    else:
+        new_message = sanitizer.sanitize(request.form.get('message'))
+        if repository.update(post_id, session['user_id'], new_message):
+            return redirect('/feed')
+        else:
+            return "Error updating post", 400
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

@@ -56,3 +56,31 @@ class PostRepository:
             email = rows[0]["user_email"]
             return email
         return None
+
+    def delete(self, post_id, user_id):
+        """Delete a post if it belongs to the user"""
+        rows = self._connection.execute(
+            'DELETE FROM posts WHERE id = %s AND user_id = %s RETURNING id',
+            [post_id, user_id]
+        )
+        return len(rows) > 0
+
+    def update(self, post_id, user_id, new_message):
+        """Update a post's message if it belongs to the user"""
+        rows = self._connection.execute(
+            'UPDATE posts SET message = %s WHERE id = %s AND user_id = %s RETURNING id',
+            [new_message, post_id, user_id]
+        )
+        return len(rows) > 0
+
+    def find_by_id(self, post_id):
+        """Find a post by its ID"""
+        rows = self._connection.execute(
+            'SELECT posts.id AS post_id, posts.message, posts.time, posts.user_id, posts.username ' \
+            'FROM posts WHERE posts.id = %s',
+            [post_id]
+        )
+        if len(rows) == 0:
+            return None
+        row = rows[0]
+        return Post(row["post_id"], row["message"], row["time"], row["user_id"], row["username"])
